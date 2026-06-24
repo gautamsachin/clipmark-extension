@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Clipmark",
+  "version": "4.0.0",
+  "description": "Bookmark YouTube and Instagram videos at any timestamp. Save with screenshot, notes and tags.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "contextMenus",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.instagram.com/*",
+    "https://www.youtube.com/*",
+    "http://localhost:3000/*",
+    "https://*.vercel.app/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.instagram.com/*",
+        "https://www.youtube.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "http://localhost:3000/*",
+        "https://*.vercel.app/*"
+      ],
+      "js": ["dashboard-sync.js"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
