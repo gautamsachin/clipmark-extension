@@ -385,6 +385,20 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     return true
   }
 
+  if (msg.action === 'DELETE_BOOKMARK_CLOUD') {
+    getAuthToken().then(token => {
+      if (!token) { sendResponse({ ok: false, error: 'Not connected' }); return }
+      fetch(`${API_BASE}/bookmarks?video_id=${encodeURIComponent(msg.videoId)}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+        .then(r => r.json())
+        .then(data => sendResponse({ ok: true, data }))
+        .catch(err => sendResponse({ ok: false, error: err.message }))
+    })
+    return true
+  }
+
   if (msg.action === 'CLEAR_ALL_CLOUD') {
     getAuthToken().then(token => {
       if (!token) { sendResponse({ ok: false, error: 'Not connected' }); return }

@@ -320,6 +320,8 @@ const renderList = async () => {
       await setBm(all)
       toast('Removed')
       renderAll()
+      // Also remove from cloud in background (fire-and-forget)
+      chrome.runtime.sendMessage({ action: 'DELETE_BOOKMARK_CLOUD', videoId: id })
     })
   })
 }
